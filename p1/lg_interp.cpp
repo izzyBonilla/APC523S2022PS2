@@ -121,15 +121,19 @@ int interp(std::vector<double> &x, std::vector<double> &x_n, std::vector<double>
    // interpolation and store in f_n 
     
     double L;
+    double rational;
+    bool sign;
     for(int i=0; i < NF; ++i) {
         for(int j=0; j < n; ++j) {
             L = 1;
             for(int k=0; k < n; ++k) {
                 if(k != j) {
-                    L*= (x[i]-x_n[k])/(x_n[j] - x_n[k]);
+                    rational= (x[i]-x_n[k])/(x_n[j] - x_n[k]);
+                    sign = (rational > 0);
+                    L+= log(abs(rational));
                 }
             }
-            f_n[i] += L*f[j];
+            f_n[i] += (sign) ? exp(L)*f[j] : -exp(L)*f[j];
         }
     }
 
