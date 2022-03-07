@@ -15,6 +15,7 @@ int runge_exact(std::vector<double> &x, std::vector<double> &f, const int n);
 int abs_exact(std::vector<double> &x, std::vector<double> &f, const int n);
 int step_exact(std::vector<double> &x, std::vector<double> &f, const int n);
 int interp(std::vector<double> &x, std::vector<double> &x_n, std::vector<double> &f, std::vector<double> &f_n, const int n);
+int calc_max(std::vector<double> &f, std::vector<double> &f_n, double &l2, double &max);
 
 int main(int argc, char *argv[]) {
 
@@ -22,15 +23,20 @@ int main(int argc, char *argv[]) {
 
     int n;
     std::string func_arg; 
-    
+    int log_flag = 1;
+
     if(argc == 2) {
         func_arg = argv[1];
         n = NDEF;
     } else if(argc == 3) {
         func_arg = argv[1];
         n = atoi(argv[2]);
+    } else if(argc == 4){
+        func_arg = argv[1];
+        n = atoi(argv[2]);
+        log_flag = atoi(argv[3]);
     } else {
-        std::cout << "Please supply which function to interpolate func_arg and number of Chebyshev nodes n \n";
+        std::cout << "Please supply which function to interpolate func_arg, number of Chebyshev nodes n" << "\n" << "and optional flag for data log (1 for yes 0 for no) \n";
         exit(1);
     }
 
@@ -50,7 +56,6 @@ int main(int argc, char *argv[]) {
     // x for node grid
     for(int i=0; i < n; ++i) {
         x_node[i] = cos((2.*i+1.)/(n+1)*M_PI/2.);
-        std::cout << x_node[i] << "\n";
     }
     
     // find exact data on fine grid and node grid
@@ -73,16 +78,26 @@ int main(int argc, char *argv[]) {
     double L;
     interp(x,x_node,f_node,f_hat,n);
 
-    std::ofstream arr_file("interp.dat");
-    if(arr_file.is_open()) {
-        for(int i=0; i < NF; ++i) {
-            arr_file << x[i] << "\t" << f[i] << "\t" << f_hat[i] << "\n"; 
+    if(log_flag) {
+        std::ofstream arr_file("interp.dat");
+        if(arr_file.is_open()) {
+            for(int i=0; i < NF; ++i) {
+                arr_file << x[i] << "\t" << f[i] << "\t" << f_hat[i] << "\n"; 
+            }
+            arr_file.close();
+        } else {
+            std::cout << "Can't open the file oops";
         }
-        arr_file.close();
-    } else {
-        std::cout << "Can't open the file oops";
     }
-    
+
+    // error collection
+    double l2;
+    double max;
+
+    calc_max(f,f_hat,l2,max);
+
+    std::cout << n << "\t" << l2 << "\t" << max << "\n";
+
     return 0;
 }
 
@@ -139,6 +154,23 @@ int interp(std::vector<double> &x, std::vector<double> &x_n, std::vector<double>
             f_n[i] += (sign_count % 2 == 0) ? exp(L)*f[j] : -exp(L)*f[j];
         }
     }
+    return 0;
+}
 
+int calc_max(std::vector<double> &f, std::vector<double> &f_n, double &l2, double &max) {
+    // calculates L2 error and max error given an interpolated function f_n and
+    // exact function f
+
+    double sum;
+    double diff;
+    max = 0;
+
+    for(int i = 0; i < NF; ++i) {
+        diff = f_n[i] - f[i];
+        sum += pow(diff,2);
+        max = (abs(diff)) ? abs(diff) : max;
+    }
+
+    l2 = sqrt(sum/NF);
     return 0;
 }
