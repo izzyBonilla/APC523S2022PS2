@@ -122,7 +122,9 @@ int interp(std::vector<double> &x, std::vector<double> &x_n, std::vector<double>
     
     double L;
     double rational;
-    int sign_count;
+    // overall sum of the exp(log(L_j)) will be signed by whether there is an even number of
+    // negative polynomials, i.e. even negative polynomials will be positive
+	int sign_count;
     for(int i=0; i < NF; ++i) {
         for(int j=0; j < n; ++j) {
             L = 0;
