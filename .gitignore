@@ -30,7 +30,7 @@
 *.exe
 *.out
 *.app
-interp
+interp*
 
 # Data
 *.dat

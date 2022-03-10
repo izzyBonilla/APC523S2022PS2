@@ -1,17 +1,18 @@
 #!/bin/bash
 make interp
+make interp_err
 
 # runge
-for NC in 10 20 40 
-do
-	./interp runge $NC
-	gnuplot gnu.sh 
+./interp runge
+gnu.sh p1_1a.png
 
-#!/bin/bash
-make poisson1a
-./poisson1a 128 1e-6
-cat final_phi.dat | sed '1d' > clean.dat
-gnuplot p1a_gnu.sh
+# abs
+./interp abs
+gnu.sh p1_1b.png
+
+# step
+./interp step
+gnu.sh p1_1c.png
 
 make clean
 rm *.dat
