@@ -6,7 +6,7 @@ interp: $(OBJ_1)
 	$(CC) -O3 -o $@ $^
 
 interp_err: $(OBJ_2)
-	$(CC) -O3 -o $@ $^
+	$(CC) -O3 -fopenmp -o $@ $^
 
 
 .PHONY: clean
