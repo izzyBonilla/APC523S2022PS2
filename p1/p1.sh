@@ -1,6 +1,11 @@
 #!/bin/bash
 make interp
 
+# runge
+for NC in 10 20 40 
+do
+	./interp runge $NC
+	gnuplot gnu.sh 
 
 #!/bin/bash
 make poisson1a
