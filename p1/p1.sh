@@ -4,15 +4,15 @@ make interp_err
 
 # runge
 ./interp runge
-gnu.sh p1_1a.png
+gnuplot -e "filename='p1_1a.png'" gnu.sh 
 
 # abs
 ./interp abs
-gnu.sh p1_1b.png
+gnuplot -e "filename='p1_1b.png'" gnu.sh 
 
 # step
 ./interp step
-gnu.sh p1_1c.png
+gnuplot -e "filename='p1_1c.png'" gnu.sh 
 
 make clean
 rm *.dat

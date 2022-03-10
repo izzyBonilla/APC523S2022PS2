@@ -35,5 +35,8 @@ interp*
 # Data
 *.dat
 
+# Images
+*.png
+
 # Tests
 test*
