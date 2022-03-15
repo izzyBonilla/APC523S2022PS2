@@ -7,6 +7,10 @@
 #include <functional>
 
 #define P 5 // num points to avoid magic numbering
+#define X8 0.2222222222222222
+#define ABS_POLY 2.125
+#define STEP 0.2928932188134524
+#define INV 2
 
 int main(int argc, char *argv[]) {
 
@@ -32,14 +36,20 @@ int main(int argc, char *argv[]) {
     }
     std::function <double(double)> f;
 
-    if(func == "x8") { // lambdas
+    double exact;
+
+    if(func == "x8") { // lambdas and exact answer storage (which feels gross)
         f = [](double x){return pow(x,8);};
+        exact = X8;
     } else if(func == "abs_poly") {
         f = [](double x){return pow(abs(x-1./sqrt(2)),3);};
+        exact = ABS_POLY;
     } else if(func == "step") {
         f = [](double x){return ((x-1./sqrt(2)) >= 0) ? 1 : 0;};
+        exact = STEP;
     } else if(func == "inv_sqrt") {
         f = [](double x){return 1./sqrt(x);};
+        exact = INV;
     } else {
         std::cout << "Invalid function \n";
         exit(1);
@@ -70,7 +80,7 @@ int main(int argc, char *argv[]) {
 
     integ *= dh/2;
 
-    std::cout << h << "\t" << integ << "\n";
+    std::cout << h << "\t" << abs(exact - integ) << "\n";
 
     return 0;
 }
