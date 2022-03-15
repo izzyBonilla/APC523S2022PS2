@@ -9,7 +9,7 @@ do
     ./gq $i -1 1 x8 >> $INPUT
 done
 
-gnuplot -e "outfile='$OUTPUT'" gnu.sh
+gnuplot -e "outfile='$OUTPUT'" "infile='$INPUT'" gnu.sh
 
 # Part B abs_poly
 INPUT=gq_b.dat
