@@ -1,7 +1,7 @@
 #!/usr/bin/gnuplot
 
 set term png
-set output outfile
+set output filename
 set xlabel "h"
 set ylabel "f"
 set title "Error vs. h"
@@ -9,7 +9,7 @@ set logscale xy
 set key default
 set key bottom right
 
-plot infile u 1:2 w lines tit "error",\
+plot "gq.dat" u 1:2 w lines tit "error",\
      x**0.5 dashtype 2 tit "h^0.5",\
      x dashtype 2 tit "h",\
      x**2 dashtype 2 tit "h^2",\

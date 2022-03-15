@@ -2,37 +2,40 @@
 make gq
 
 # Part A x8
-INPUT=gq_a.dat
-OUTPUT=p2_a.png
+INPUT=gq.dat
 for i in 1 2 4 8 16 32 64 128 256
 do
     ./gq $i -1 1 x8 >> $INPUT
 done
 
-gnuplot -e "outfile='$OUTPUT'" "infile='$INPUT'" gnu.sh
+gnuplot -e "filename='p2_a.png'"  gnu.sh
+>$INPUT
 
 # Part B abs_poly
-INPUT=gq_b.dat
-OUTPUT=p2_b.png
 for i in 1 2 4 8 16 32 64 128 256
 do
     ./gq $i -1 1 x8 >> $INPUT
 done
+
+gnuplot -e "filename='p2_b.png'"  gnu.sh
+>$INPUT
 
 # Part C step
-INPUT=gq_c.dat
-OUTPUT=p2_c.png
 for i in 1 2 4 8 16 32 64 128 256
 do
     ./gq $i -1 1 x8 >> $INPUT
 done
 
+gnuplot -e "filename='p2_c.png'"  gnu.sh
+>$INPUT
+
 # Part D inv sqrt
-INPUT=gq_d.dat
-OUTPUT=p2_d.png
 for i in 1 2 4 8 16 32 64 128 256
 do
     ./gq $i -1 1 x8 >> $INPUT
 done
+
+gnuplot -e "filename='p2_d.png'"  gnu.sh
+>$INPUT
 
 make clean
