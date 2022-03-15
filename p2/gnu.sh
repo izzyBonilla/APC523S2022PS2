@@ -6,7 +6,7 @@ set xlabel "h"
 set ylabel "f"
 set title "Error vs. h"
 
-plot gq_a.dat u 1:2 w lines tit "error",\
+plot "gq_a.dat" u 1:2 w lines tit "error",\
 plot x**0.5 dashtype 2 tit "h^0.5",\
 plot x dashtype 2 tit "h",\
 plot x**2 dashtype 2 tit "h^2",\
