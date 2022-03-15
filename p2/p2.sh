@@ -28,3 +28,5 @@ for i in 1 2 4 8 16 32 64 128 256
 do
     ./gq $i -1 1 x8 >> INPUT
 done
+
+make clean
