@@ -51,17 +51,15 @@ int main(int argc, char *argv[]) {
                 sigma = -x_old[i-1] - x_old[i+1];
             }
 
-            x_new[i] = 0.5*(lambda*v[i]+sigma);
-            if(abs(x_new[i] - lambda*v[i]) > curr_err) {
-                curr_err = abs(x_new[i] - lambda*v[i]);
+            x_new[i] = 0.5*(lambda*v[i]-sigma);
+            if(abs(x_new[i] - v[i]) > curr_err) {
+                curr_err = abs(x_new[i] - v[i]);
             }
         }
         err[k] = curr_err;
         x_old = x_new;
-    }
 
-    for(i=0; i<N; ++i) {
-        std::cout<<x_new[i]<<"\n";
+        std::cout << k << "\t" << curr_err << "\n";
     }
 
     return 0;

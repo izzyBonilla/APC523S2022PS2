@@ -37,13 +37,11 @@ int main(int argc, char *argv[]) {
     Vec err(ITER);
 
     double sigma;
-
-    for(i=0; i<N;++i){
-        std::cout << x_old[i] << "\n";
-    }
+    double curr_err;
 
     // main loop
     for(k=0; k<ITER; ++k) {
+        curr_err = 0;
         for(i=0; i<N; ++i) {
             if(i==0) {
                 sigma = -x_old[i+1];
@@ -53,9 +51,15 @@ int main(int argc, char *argv[]) {
                 sigma = -x_new[i-1] -x_old[i+1];
             }
 
-            x_new[i] = 0.5*(lambda*v[i]-sigma);                       
+            x_new[i] = 0.5*(lambda*v[i]-sigma);
+            if(abs(x_new[i]-v[i]) > curr_err) {
+                curr_err = abs(x_new[i]-v[i]);
+            }               
         }
 
+        std::cout << k << "\t" << curr_err << "\n";
+
+        err[k] = curr_err;
         x_old = x_new;
     }
     

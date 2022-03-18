@@ -32,6 +32,8 @@
 *.app
 interp*
 gq
+jacobi
+gs
 
 # Data
 *.dat
