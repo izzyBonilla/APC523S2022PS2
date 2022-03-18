@@ -1,9 +1,9 @@
 #include <vector>
 #include <math.h>
 #include <iostream>
+#include <limits> 
 
 typedef std::vector<double> Vec;
-typedef std::vector<Vec> Mat;
 
 #define N 100
 #define ITER 1000
@@ -37,6 +37,32 @@ int main(int argc, char *argv[]) {
     Vec err(ITER);
 
     // main loop
+    double sigma;
+    double curr_err;
+
+    for(k=0; k<ITER; ++k) {
+        curr_err = 0;
+        for(i=0; i<N; ++i) {
+            if(i==0) {
+                sigma = -x_old[i+1];
+            } else if(i==N-1) {
+                sigma = -x_old[i-1];
+            } else {
+                sigma = -x_old[i-1] - x_old[i+1];
+            }
+
+            x_new[i] = 0.5*(lambda*v[i]+sigma);
+            if(abs(x_new[i] - lambda*v[i]) > curr_err) {
+                curr_err = abs(x_new[i] - lambda*v[i]);
+            }
+        }
+        err[k] = curr_err;
+        x_old = x_new;
+    }
+
+    for(i=0; i<N; ++i) {
+        std::cout<<x_new[i]<<"\n";
+    }
 
     return 0;
 }

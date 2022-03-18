@@ -36,7 +36,28 @@ int main(int argc, char *argv[]) {
     Vec x_old(N);
     Vec err(ITER);
 
-    // main loop
+    double sigma;
 
+    for(i=0; i<N;++i){
+        std::cout << x_old[i] << "\n";
+    }
+
+    // main loop
+    for(k=0; k<ITER; ++k) {
+        for(i=0; i<N; ++i) {
+            if(i==0) {
+                sigma = -x_old[i+1];
+            } else if(i==N-1) {
+                sigma = -x_new[i-1];
+            } else {
+                sigma = -x_new[i-1] -x_old[i+1];
+            }
+
+            x_new[i] = 0.5*(lambda*v[i]-sigma);                       
+        }
+
+        x_old = x_new;
+    }
+    
     return 0;
 }
